@@ -41,7 +41,7 @@ def extractCoreQuery(subQuery):
     result = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=[{"role": "user", "content": prompt}],
-        temperature=0
+        temperature=0.1 # want it to be highly accurate but ready for typos
     )
     return result.choices[0].message.content.strip().strip('"')
 
@@ -50,7 +50,7 @@ def expandQueryTerms(coreQuery):
     result = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=[{"role": "user", "content": prompt}],
-        temperature=0.3
+        temperature=0.35  # want it to get creative but not too much
     )
     return eval(result.choices[0].message.content.strip())
 
@@ -89,7 +89,7 @@ def summarizeSectionsWithQuotes(sections, coreQuery):
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages=[{"role": "user", "content": prompt}],
-            temperature=0.2
+            temperature=0.2 # don't want it to make things up
         )
         s["summaryWithQuote"] = response.choices[0].message.content.strip()
     return sections
@@ -154,6 +154,8 @@ def main():
 
         for bs in bestSummaries:
             allFilteredResults.append(bs)
+        
+        # bs :)
 
 
     # logging disabled
@@ -172,6 +174,7 @@ def showAnswerPopup(answerText):
     root.withdraw()  
     messagebox.showinfo("Response Answer", answerText)
     root.destroy()
-# above code generates response as a text box rather than in terminal
+    # above code generates response as a text box rather than in terminal
+    # may look different than on my end if done on windows
 
 main()
