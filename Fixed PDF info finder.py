@@ -4,7 +4,7 @@ import tkinter as tk
 from tkinter import messagebox
 
 
-openai.api_key = ""
+openai.api_key = "" # github will not allow me to keep the api key in my code
 pdfPath = "/Users/shreyansjain/Downloads/2022_ca_building_code_volumes_1_2_1st_ptg_rev.pdf"
 maxMatchesToSummarize = 20
 maxSectionChars = 1000
@@ -112,7 +112,7 @@ def generateFinalAnswer(coreQuery, filteredSections):
         f"Section {s['section']} (Page {s['page']}):\n{s['summaryWithQuote']}"
         for s in filteredSections
     ])
-    prompt = f'You are an expert in the California Building Code.\nThe user asked about: "{coreQuery}"\n\nBased on the following summaries and quotes from the building code, write a clear, accurate, long, one-paragraph answer for the user. It must include a lot of detailed quantitative information from the original PDF including numbers (if applicable). Make sure that it is not a diversion from the original core query: {coreQuery}\n\nBuilding Code Summaries and Quotes:\n{content}'
+    prompt = f'You are an expert in the California Building Code.\nThe user asked about: "{coreQuery}"\n\nBased on the following summaries and quotes from the building code, write a clear, accurate, long, one-paragraph answer for the user. It must include a lot of detailed quantitative information from the original PDF including numbers (if applicable). Make sure that it is not a diversion from the original core query: {coreQuery}. It should also include page numbers and chapters of findings, if applicable.\n\nBuilding Code Summaries and Quotes:\n{content}'
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=[{"role": "user", "content": prompt}],
@@ -167,7 +167,7 @@ def main():
 def showAnswerPopup(answerText):
     root = tk.Tk()
     root.withdraw()  
-    messagebox.showinfo("CBC Answer", answerText)
+    messagebox.showinfo("Response Answer", answerText)
     root.destroy()
 
 
