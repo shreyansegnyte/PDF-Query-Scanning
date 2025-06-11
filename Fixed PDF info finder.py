@@ -172,6 +172,6 @@ def showAnswerPopup(answerText):
     root.withdraw()  
     messagebox.showinfo("Response Answer", answerText)
     root.destroy()
-
+# above code generates response as a text box rather than in terminal
 
 main()
