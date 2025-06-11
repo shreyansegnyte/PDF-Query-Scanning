@@ -5,9 +5,8 @@ from tkinter import messagebox
 
 
 openai.api_key = "" # github will not allow me to keep the api key in my code
-pdfPath = "/Users/shreyansjain/Downloads/2022_ca_building_code_volumes_1_2_1st_ptg_rev.pdf"
-# please change the PDF path from wherever it is on your computer
-# here is a link to the PDF I have been using to test this:
+pdfPath = "" # # please change the PDF path from wherever it is on your computer
+# here is a link to the PDF I have been using to test this (also in github repo):
 # https://egnyte.egnyte.com/dl/jWFdFRBrwT7t/2022_ca_building_code_volumes_1_2_1st_ptg_rev.pdf_
 maxMatchesToSummarize = 20
 maxSectionChars = 1000
@@ -178,3 +177,8 @@ def showAnswerPopup(answerText):
     # may look different than on my end if done on windows
 
 main()
+
+# goal for next time is to make this program work well for ANY pdf
+# for example, right now, the instructions are tuned very well for this
+# california building code PDF. it does not work well for a PDF about
+# something completely different yet engineering related
