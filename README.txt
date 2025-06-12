@@ -68,3 +68,7 @@ various gpt-centered functions. If you would like to test the code, I can you se
 
 * quick detail: when running, if there's an error on lines 32/45, just re-run the code because sometimes, gpt-3.5 returns an incorrectly 
 structured python list which can cause errors in the following functions
+
+Update; 6/12: changing models from gpt-3.5-turbo did not affect the API costs much. However, after evaluating 3.5-turbo and 4.1-nano
+(with 4.1), I decided to change all of them to 4.1-nano because the evaluation pass rate changes from 59% to 92% when moving from
+3.5 to 4.1.
