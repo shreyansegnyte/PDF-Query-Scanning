@@ -3,7 +3,6 @@ from PyPDF2 import PdfReader
 import tkinter as tk
 from tkinter import messagebox
 
-
 openai.api_key = "" # github will not allow me to keep the api key in my code
 pdfPath = "" # please change the PDF path from wherever it is on your computer
 # here is a link to the PDF I have been using to test this (also in github repo):
@@ -123,6 +122,22 @@ def generateFinalAnswer(coreQuery, filteredSections):
     )
     return response.choices[0].message.content.strip()
 
+
+#def finalAnswer(txt, userInput):
+    #prompt = f'Generate a short one-to-two-sentence long report based on this summary: {txt}. Only keep quantitative data/numbers when needed for clarity and combine repeated sections. Make sure that this report is solely based off of the inputted text and not any external or general information. It should also directly corelate to the original queries of the user: "{userInput}"'
+    #response = openai.ChatCompletion.create(
+        #model="gpt-3.5-turbo",
+        #messages=[{"role": "user", "content": prompt}],
+        #temperature=0.2)
+    #return response.choices[0].message.content.strip()
+
+def showAnswerPopup(answerText):
+    root = tk.Tk()
+    root.withdraw()  
+    messagebox.showinfo("Response Answer", answerText)
+    root.destroy()
+    # above code generates response as a text box rather than in terminal
+    # may look different than on my end if done on windows
 def main():
     userInput = input("Prompt (full sentence): ").strip()
     print("Breaking input into focused sub-queries...")
@@ -163,19 +178,16 @@ def main():
     if allFilteredResults:
         print("\nGenerating final combined answer...")
         combinedAnswer = generateFinalAnswer(userInput, allFilteredResults)
+        #finalAnswerLast = finalAnswer(combinedAnswer, subQueries)
         print("\nFinal Answer:\n")
+        #print(finalAnswerLast)
         print(combinedAnswer)
+        #showAnswerPopup(finalAnswerLast)
         showAnswerPopup(combinedAnswer)
     else:
         print("\nNo relevant content found in the PDF. Generating a standard/background information-based answer instead...")
 
-def showAnswerPopup(answerText):
-    root = tk.Tk()
-    root.withdraw()  
-    messagebox.showinfo("Response Answer", answerText)
-    root.destroy()
-    # above code generates response as a text box rather than in terminal
-    # may look different than on my end if done on windows
+
 
 main()
 
