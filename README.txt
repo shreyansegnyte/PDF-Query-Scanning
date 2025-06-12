@@ -1,5 +1,7 @@
-Code explanation:
+Goal: to efficiently look/search/sort through a PDF based on a user's query and return a correct/specific answer to their
+question without being redundant, including citations and sources for another model to read for RAG
 
+Code explanation:
 1. Firstly, the user's initial input is sorted for "core queries"; typos are removed, grammatical issues are fixed, and using
 gpt-3.5, a core query/set of core queries is generated. Here is an example:
     input: "I am looking for information about roofing regulations and laws surrounding roofs from a context
