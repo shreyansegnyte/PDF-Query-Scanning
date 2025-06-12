@@ -115,7 +115,7 @@ def generateFinalAnswer(coreQuery, filteredSections):
         f"Section {s['section']} (Page {s['page']}):\n{s['summaryWithQuote']}"
         for s in filteredSections
     ])
-    prompt = f'You are an expert in engineering.\nThe user asked about: "{coreQuery}"\n\nBased on the following summaries and quotes from the PDF, write a clear, accurate, long, one-paragraph answer for the user. It must include a lot of detailed quantitative information from the original PDF including numbers (if applicable). Make sure that it is not a diversion from the original core query: {coreQuery}. It should also include page numbers and chapters of findings, if applicable. It should only include information from the PDF and summaries itself, not any external info.\n\nSummaries and Quotes:\n{content}'
+    prompt = f'You are an expert in engineering.\nThe user asked about: "{coreQuery}"\n\nBased on the following quotes and summaries from the original source, write a clear, accurate, long, one-paragraph answer for the user. It must include a lot of detailed quantitative information from the original PDF including numbers (if applicable). Make sure that it is not a diversion from the original core query: {coreQuery}. It should also include page numbers and chapters of findings, if applicable. It should only include information from the PDF and summaries itself, not any external info.\n\nSummaries and Quotes:\n{content}'
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=[{"role": "user", "content": prompt}],
