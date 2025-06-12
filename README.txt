@@ -58,6 +58,9 @@ as possible. It returns a long paragraph using a tkinter GUI messagebox.
     commitment to fire prevention and safety measures. "
     * highest temperature to allow for a unique and creative output
 
+8. Then, this large paragraph is condensed down by a final gpt-3.5 instance prompted to stay specific but still also remain accurate;
+this simulates an actual/real user output.
+
 Other comments: in the previous version of this file (6/10), there used to be a logging feature where gpt-3.5 would paste all relevant
 parts of the PDf that it analyzed into a text file. However, it would get so big (500,000+ lines) that it slowed the program down substantially
 so I decided to remove it. Now, if you would like to view what's actually being processed, feel free to add a simple "print()" block in the
