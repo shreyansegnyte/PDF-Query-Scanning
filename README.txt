@@ -65,3 +65,6 @@ Other comments: in the previous version of this file (6/10), there used to be a 
 parts of the PDf that it analyzed into a text file. However, it would get so big (500,000+ lines) that it slowed the program down substantially
 so I decided to remove it. Now, if you would like to view what's actually being processed, feel free to add a simple "print()" block in the
 various gpt-centered functions. If you would like to test the code, I can you send you the API key.
+
+* quick detail: when running, if there's an error on lines 32/45, just re-run the code because sometimes, gpt-3.5 returns an incorrectly 
+structured python list which can cause errors in the following functions
