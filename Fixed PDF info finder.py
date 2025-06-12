@@ -24,6 +24,7 @@ Return only a valid Python list of quoted strings, like:
 Do NOT copy the list above. Please generate your own.
 DO NOT number them. DO NOT add any explanations. Python list only.
 You MUST include the base word / words in your output. For example, "roofing regulations" -> "roof" must be included.
+One more time: it MUST be a python list and MUST have at least 5 elements.
 '''
     result = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
@@ -36,7 +37,7 @@ You MUST include the base word / words in your output. For example, "roofing reg
 
 
 def extractCoreQuery(subQuery):
-    prompt = f'The sub-query is: "{subQuery}".\nExtract the technical phrase or object being asked about. Only return a phrase in double quotes. It must not have any numbers attached to it. Just the phrase.'
+    prompt = f'The sub-query is: "{subQuery}".\nExtract the technical engineering phrase or object being asked about. Only return a phrase in double quotes. It must not have any numbers attached to it. Just the phrase.'
     result = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=[{"role": "user", "content": prompt}],
@@ -84,7 +85,7 @@ def summarizeSectionsWithQuotes(sections, coreQuery):
         text = s["text"]
         if len(text) > maxSectionChars:
             text = text[:maxSectionChars] + " [...]"
-        prompt = f'The following is a paragraph from a building code (starts on page {s["page"]}).\n\nPlease:\n1. Write a clear, focused summary about "{coreQuery}" only\n2. Then quote 2–3 sentences directly from the paragraph that best illustrate the topic\n3. Don\'t quote summary-style statements. Keep it direct from the building code.\n\nText:\n{text}'
+        prompt = f'The following is a paragraph from a PDF (starts on page {s["page"]}).\n\nPlease:\n1. Write a clear, focused summary about "{coreQuery}" only, based on the information in this summary\n2. Then quote 2–3 sentences directly from the paragraph that best illustrate the topic\n3. Don\'t quote summary-style statements. Keep it direct from the PDF. Do not include external information. If none is found in the PDF, explain that nothing was found in the PDF.\n\nText:\n{text}'
         response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages=[{"role": "user", "content": prompt}],
@@ -98,7 +99,7 @@ def filterToBestSummaries(sections, coreQuery):
         f"[Section {s['sectionNum']}] Page {s['page']}\n{s['summaryWithQuote']}"
         for s in sections
     ])
-    prompt = f'The user is asking specifically about: "{coreQuery}" in California building codes.\n\nFrom these summaries and quotes, pick only the 3–4 sections that are:\n- Highly relevant to the query\n- Not general background\n- Contain directly useful information with quotes\n\nOnly return: [{{"section": int, "page": int, "summaryWithQuote": str}}]\n\nSummaries and quotes:\n{joined}'
+    prompt = f'The user is asking specifically about: "{coreQuery}" from a PDF.\n\nFrom these summaries and quotes, pick only the 3–4 sections that are:\n- Highly relevant to the query\n- Not general background\n- Contain directly useful information with quotes\n\nOnly return: [{{"section": int, "page": int, "summaryWithQuote": str}}]\n\nSummaries and quotes:\n{joined}'
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=[{"role": "user", "content": prompt}],
@@ -114,7 +115,7 @@ def generateFinalAnswer(coreQuery, filteredSections):
         f"Section {s['section']} (Page {s['page']}):\n{s['summaryWithQuote']}"
         for s in filteredSections
     ])
-    prompt = f'You are an expert in the California Building Code.\nThe user asked about: "{coreQuery}"\n\nBased on the following summaries and quotes from the building code, write a clear, accurate, long, one-paragraph answer for the user. It must include a lot of detailed quantitative information from the original PDF including numbers (if applicable). Make sure that it is not a diversion from the original core query: {coreQuery}. It should also include page numbers and chapters of findings, if applicable.\n\nBuilding Code Summaries and Quotes:\n{content}'
+    prompt = f'You are an expert in engineering.\nThe user asked about: "{coreQuery}"\n\nBased on the following summaries and quotes from the PDF, write a clear, accurate, long, one-paragraph answer for the user. It must include a lot of detailed quantitative information from the original PDF including numbers (if applicable). Make sure that it is not a diversion from the original core query: {coreQuery}. It should also include page numbers and chapters of findings, if applicable. It should only include information from the PDF and summaries itself, not any external info.\n\nSummaries and Quotes:\n{content}'
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
         messages=[{"role": "user", "content": prompt}],
@@ -142,7 +143,7 @@ def main():
         print("Extended POI list:", queryTerms)
 
         matchingSections = searchSections(queryTerms, allSections)
-        if len(matchingSections) >0:
+        if len(matchingSections) > 0:
             print(f"{len(matchingSections)} matches for '{sub}'")
             print("Please wait a few seconds...")
         else:
