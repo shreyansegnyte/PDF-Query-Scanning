@@ -108,6 +108,7 @@ def filterToBestSummaries(sections, coreQuery):
         return eval(response.choices[0].message.content.strip())
     except Exception:
         return []
+    # empty list
 
 def generateFinalAnswer(coreQuery, filteredSections):
     content = "\n\n".join([
