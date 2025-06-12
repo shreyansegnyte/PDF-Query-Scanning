@@ -191,8 +191,3 @@ def main():
 
 
 main()
-
-# goal for next time is to make this program work well for ANY pdf
-# for example, right now, the instructions are tuned very well for this
-# california building code PDF. it does not work well for a PDF about
-# something completely different yet engineering related
