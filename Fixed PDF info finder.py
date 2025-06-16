@@ -144,7 +144,7 @@ def main():
     subQueries = extractCoreSubQueries(userInput)
     print("Sub-queries:", subQueries)
     print("Please wait 5-15 seconds...")
-
+    
     allSections = extractPdfSections(pdfPath)
 
     allFilteredResults = []
