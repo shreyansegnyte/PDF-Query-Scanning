@@ -1,3 +1,4 @@
+This documentation is explaining the concepts in the file "Fixed PDF into finder.py".
 Goal: to efficiently look/search/sort through a PDF based on a user's query and return a correct/specific answer to their
 question without being redundant, including citations and sources for another model to read for RAG
 
