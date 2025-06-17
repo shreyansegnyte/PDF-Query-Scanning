@@ -18,7 +18,7 @@ COLLECTION_NAME = "pdf_paragraphs"
 BATCH_SIZE = 100
 
 # --- Helper: Token Counter ---
-def count_tokens(text, model="gpt-4.1-nano"):
+def count_tokens(text, model="gpt-4"):
     enc = tiktoken.encoding_for_model(model)
     return len(enc.encode(text))
 
