@@ -147,7 +147,7 @@ class PDFRAGApp:
 
         inline_citations = "; ".join(formatted_refs)
 
-        self.log("Loading query into gpt-4.1-nano...")
+        self.log("Loading query into gpt-4.1-nano-2025-04-14...")
 
         prompt = f"""You are an expert on the topics in the intial PDF provided in this RAG pipeline.
 Answer the following question clearly and concisely in a single paragraph.
@@ -165,7 +165,7 @@ Relevant citations: {inline_citations}
 
         try:
             response = openai.ChatCompletion.create(
-                model="gpt-4.1-nano",
+                model="gpt-4.1-nano-2025-04-14",
                 messages=[{"role": "user", "content": prompt}],
                 temperature=0.2
             )
