@@ -44,6 +44,11 @@ class PDFRAGApp:
 
         self.root.after(100, self.run_pipeline)
 
+    # def log(self, msg):
+        # self.output.insert(tk.END, msg + "\n")
+        # self.output.see(tk.END)
+        # self.root.update()
+
     def log(self, msg):
         self.output.insert(tk.END, msg + "\n")
         self.output.see(tk.END)
