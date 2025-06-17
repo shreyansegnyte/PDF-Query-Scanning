@@ -8,13 +8,19 @@ import chromadb
 from chromadb.config import Settings
 import openai
 import re
+import tiktoken  # NEW
 
 # --- Config ---
-openai.api_key = "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"
+openai.api_key = "" 
 PDF_PATH = "/Users/shreyansjain/Documents/pdfscanning/2022_ca_building_code_volumes_1_2_1st_ptg_rev.pdf"
 DB_DIR = "chromadb_store"
 COLLECTION_NAME = "pdf_paragraphs"
 BATCH_SIZE = 100
+
+# --- Helper: Token Counter ---
+def count_tokens(text, model="gpt-4.1-nano"):
+    enc = tiktoken.encoding_for_model(model)
+    return len(enc.encode(text))
 
 # --- GUI setup ---
 class PDFRAGApp:
@@ -117,8 +123,7 @@ class PDFRAGApp:
             self.log("Please enter a query.")
             return
 
-        self.log(f"Processing query: {query}")
-        self.log("Searching database...")
+        self.log(f"Processing query: '{query}' & searching database...")
 
         try:
             results = self.collection.query(
@@ -133,7 +138,6 @@ class PDFRAGApp:
         documents = results["documents"][0]
         metadatas = results["metadatas"][0]
 
-        # Create in-text citation fragments
         formatted_refs = []
         for doc, meta in zip(documents, metadatas):
             page = meta.get("page", "?")
@@ -141,10 +145,9 @@ class PDFRAGApp:
             ref = f"Page {page}" + (f", Section {section}" if section else "")
             formatted_refs.append(ref)
 
-        # Build citation sentence to inject into prompt
         inline_citations = "; ".join(formatted_refs)
 
-        self.log("Sending query to OpenAI...")
+        self.log("Loading query into gpt-4.1-nano...")
 
         prompt = f"""You are an expert on the topics in the intial PDF provided in this RAG pipeline.
 Answer the following question clearly and concisely in a single paragraph.
@@ -156,17 +159,27 @@ Question: {query}
 Relevant citations: {inline_citations}
 """
 
+        # Token tracking
+        prompt_tokens = count_tokens(prompt)
+        self.log(f"Input prompt: {prompt_tokens} tokens")
+
         try:
             response = openai.ChatCompletion.create(
-                model="gpt-4",
+                model="gpt-4.1-nano",
                 messages=[{"role": "user", "content": prompt}],
                 temperature=0.2
             )
             answer = response.choices[0].message.content.strip()
+            answer_tokens = count_tokens(answer)
+            total_tokens = prompt_tokens + answer_tokens
+
+            self.log(f"Output: {answer_tokens} tokens")
+            self.log(f"Total: {total_tokens} tokens")
+
         except Exception as e:
             answer = f"Error from OpenAI: {e}"
 
-        self.log("\n--- Answer ---")
+        self.log("\nResponse:")
         self.log(answer)
 
     def extract_section(self, text):
