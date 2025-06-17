@@ -61,6 +61,7 @@ class PDFRAGApp:
             self.root.after(500, self.update_timer)
 
     def run_pipeline(self):
+
         self.start_time = time.time()
         self.update_timer()
 
