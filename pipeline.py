@@ -11,6 +11,7 @@ import re
 import tiktoken  # NEW
 
 # --- Config ---
+# had to generate a new api key because the original one from github got auto-deleted
 openai.api_key = "" 
 PDF_PATH = "/Users/shreyansjain/Documents/pdfscanning/2022_ca_building_code_volumes_1_2_1st_ptg_rev.pdf"
 DB_DIR = "chromadb_store"
@@ -189,6 +190,7 @@ Relevant citations: {inline_citations}
         return None
 
 # --- Run the app ---
+# dml
 if __name__ == "__main__":
     root = tk.Tk()
     app = PDFRAGApp(root)
