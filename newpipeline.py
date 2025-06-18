@@ -11,14 +11,14 @@ import openai
 import re
 import tiktoken
 
-# --- Config ---
+
 openai.api_key = ""
 DB_DIR = "chromadb_store"
 BATCH_SIZE = 250
 CACHE_DIR = ".ragcache"
 os.makedirs(CACHE_DIR, exist_ok=True)
 
-# --- Helpers ---
+
 def count_tokens(text, model="gpt-4"):
     enc = tiktoken.encoding_for_model(model)
     return len(enc.encode(text))
@@ -223,7 +223,7 @@ Relevant citations: {inline_citations}
             return match.group(2)
         return None
 
-# --- Run the app ---
+
 if __name__ == "__main__":
     root = tk.Tk()
     app = PDFRAGApp(root)
