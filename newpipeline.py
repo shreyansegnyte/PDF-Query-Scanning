@@ -34,7 +34,7 @@ def get_collection_info(pdf_path):
     cache_path = os.path.join(CACHE_DIR, f"{collection_name}.done")
     return collection_name, cache_path
 
-# --- GUI setup ---
+
 class PDFRAGApp:
     def __init__(self, root):
         self.root = root
