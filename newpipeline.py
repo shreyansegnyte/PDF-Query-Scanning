@@ -10,7 +10,7 @@ from chromadb.config import Settings
 import openai
 import re
 import tiktoken
-
+# ^ tokenizer
 
 openai.api_key = ""
 DB_DIR = "chromadb_store"
